@@ -1,0 +1,54 @@
+
+
+.myDiv {
+    background-color: #f8f2f2;
+    text-align: center;
+}
+
+.restaurant{
+    text-align: center;
+}
+
+.courier{
+    text-align: center;
+}
+
+.customer{
+    text-align: center;
+}
+
+.restaurantBody{
+    background-image: url('image/Restaurant.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.courierBody{
+    background-image: url('image/courier.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.customerBody{
+    background-image: url('image/customer.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+
+input {
+    padding: 6px;
+    border-radius: 2px;
+}

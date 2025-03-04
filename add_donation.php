@@ -43,87 +43,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert donation into donations table
     $sql = "INSERT INTO Donations (donor_id, donation_date, donation_type, event, amount, payment_method, notes) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssdss", $donor_id, $donation_date, $donation_type, $event, $amount, $payment_method, $notes);
-    $stmt->execute();
+    $params = [$donor_id, $donation_date, $donation_type, $event, $amount, $payment_method, $notes];
+    executeUpdate($conn, $sql, $params, 'isssdss');
 
     // Update the total donated amount for the donor
     $sql_update = "UPDATE Donors SET total_donation = total_donation + ? WHERE id = ?";
-    $stmt_update = $conn->prepare($sql_update);
-    $stmt_update->bind_param("di", $amount, $donor_id);
-    $stmt_update->execute();
+    executeUpdate($conn, $sql_update, [$amount, $donor_id], 'di');
 
     // Update largest donation parameter
-    $sql_get_largest = "SELECT largest_donation FROM Donors WHERE id = ?";
-    $stmt_get_largest = $conn->prepare($sql_get_largest);
-    $stmt_get_largest->bind_param("i", $donor_id); 
-    $stmt_get_largest->execute();
-    $stmt_get_largest->bind_result($largest_donation);
-    $stmt_get_largest->fetch();
-    $stmt_get_largest->close();
-    if ($amount > $largest_donation) { 
+    $largest_donation = fetchValue($conn, "SELECT largest_donation FROM Donors WHERE id = ?", [$donor_id], 'i');
+    if ($amount > $largest_donation) {
         $sql_update_largest = "UPDATE Donors SET largest_donation = ? WHERE id = ?";
-        $stmt_update = $conn->prepare($sql_update_largest);
-        $stmt_update->bind_param("di", $amount, $donor_id); 
-        $stmt_update->execute();
-        $stmt_update->close(); 
+        executeUpdate($conn, $sql_update_largest, [$amount, $donor_id], 'di');
     }
 
     // Update average donation parameter
-    $sql_get_total = "SELECT total_donation FROM Donors WHERE id = ?";
-    $stmt_get_total = $conn->prepare($sql_get_total);
-    $stmt_get_total->bind_param("i", $donor_id);
-    $stmt_get_total->execute();
-    $stmt_get_total->bind_result($total_donation);
-    $stmt_get_total->fetch();
-    $stmt_get_total->close();
-
+    $total_donation = fetchValue($conn, "SELECT total_donation FROM Donors WHERE id = ?", [$donor_id], 'i');
     $sql_count_donations = "SELECT COUNT(*) FROM Donations WHERE donor_id = ?";
-    $stmt_count = $conn->prepare($sql_count_donations);
-    $stmt_count->bind_param("i", $donor_id);
-    $stmt_count->execute();
-    $stmt_count->bind_result($donation_count);
-    $stmt_count->fetch();
-    $stmt_count->close();
-
+    $donation_count = fetchValue($conn, $sql_count_donations, [$donor_id], 'i');
     $average_donation = ($donation_count > 0) ? ($total_donation / $donation_count) : 0;
-
     $sql_update_avg = "UPDATE Donors SET average_donation = ? WHERE id = ?";
-    $stmt_update_avg = $conn->prepare($sql_update_avg);
-    $stmt_update_avg->bind_param("di", $average_donation, $donor_id);
-    $stmt_update_avg->execute();
-    $stmt_update_avg->close();
+    executeUpdate($conn, $sql_update_avg, [$average_donation, $donor_id], 'di');
 
     // Update last donation date
-    $sql_get_latest_date = "SELECT last_donation_date FROM Donors WHERE id = ?";
-    $stmt_get_latest = $conn->prepare($sql_get_latest_date);
-    $stmt_get_latest->bind_param("i", $donor_id);
-    $stmt_get_latest->execute();
-    $stmt_get_latest->bind_result($last_donation_date);
-    $stmt_get_latest->fetch();
-    $stmt_get_latest->close();
+    $last_donation_date = fetchValue($conn, "SELECT last_donation_date FROM Donors WHERE id = ?", [$donor_id], 'i');
     if ($last_donation_date === null || $donation_date > $last_donation_date) {
         $sql_update_last_date = "UPDATE Donors SET last_donation_date = ? WHERE id = ?";
-        $stmt_update_date = $conn->prepare($sql_update_last_date);
-        $stmt_update_date->bind_param("si", $donation_date, $donor_id);
-        $stmt_update_date->execute();
-        $stmt_update_date->close();
+        executeUpdate($conn, $sql_update_last_date, [$donation_date, $donor_id], 'si');
     }
 
     // Redirect or display success message
     echo "Donation added successfully!";
 }
 
-function processStatements($sql, $donor_id) {
-    $sql_get_latest_date = "SELECT last_donation_date FROM Donors WHERE id = ?";
-    $stmt_get_latest = $conn->prepare($sql_get_latest_date);
-    $stmt_get_latest->bind_param("i", $donor_id);
-    $stmt_get_latest->execute();
-    $stmt_get_latest->bind_result($last_donation_date);
-    $stmt_get_latest->fetch();
-    $stmt_get_latest->close();
-    
-    return $last_donation_date;
+function fetchValue($conn, $sql, $params, $types) {
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die('Prepare failed: ' . $conn->error);
+    }
+
+    $stmt->bind_param($types, ...$params);  
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    $stmt->close();
+
+    return $result;
+}
+
+function executeUpdate($conn, $sql, $params, $types) {
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die('Prepare failed: ' . $conn->error);
+    }
+
+    $stmt->bind_param($types, ...$params);  
+    $stmt->execute();
+    $stmt->close();
 }
 
 ?>

@@ -82,17 +82,17 @@ $conn->close();
         <!-- Title -->
         <label for="title">Title:</label>
         <input type="text" id="title" name="title">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- First Name -->
         <label for="first_name">First Name:</label>
         <input type="text" id="first_name" name="first_name" required>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Last Name -->
         <label for="last_name">Last Name:</label>
         <input type="text" id="last_name" name="last_name" required>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Gender -->
         <label for="gender">Gender:</label>
@@ -107,17 +107,17 @@ $conn->close();
         <!-- Birthday -->
         <label for="birthday">Birthday:</label>
         <input type="date" id="birthday" name="birthday">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Occupation -->
         <label for="occupation">Occupation:</label>
         <input type="text" id="occupation" name="occupation">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Employer -->
         <label for="employer">Employer:</label>
         <input type="text" id="employer" name="employer">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Partner -->
         <label for="partner">Partner:</label>
@@ -127,7 +127,7 @@ $conn->close();
         <!-- Preferred Name -->
         <label for="preferred_name">Preferred Donation Name:</label>
         <input type="text" id="preferred_name" name="preferred_name">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Anonymous -->
         <label for="anonymous">Anonymous Donation:</label>
@@ -135,7 +135,7 @@ $conn->close();
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Opt in/out Newsletter -->
         <label for="opt_in_newsletter">Opt-in to Newsletters/Emails:</label>
@@ -143,7 +143,7 @@ $conn->close();
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Active Status -->
         <label for="donor_status">Donor Status:</label>
@@ -151,14 +151,13 @@ $conn->close();
           <option value="1">Active</option>
           <option value="0">Inactive</option>
         </select>
-        <br><br>
 
         <h1>Donor Contact Information</h1>
 
         <!-- Email -->
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Phone Type -->
         <label for="phone_type">Phone Type:</label>
@@ -167,12 +166,12 @@ $conn->close();
           <option value="Work">Work</option>
           <option value="Mobile">Mobile</option>
         </select>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Phone Number -->
         <label for="phone">Phone:</label>
         <input type="tel" id="phone" name="phone">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Preferred Contact -->
         <label for="preferred_contact">Preferred Contact:</label>
@@ -186,12 +185,12 @@ $conn->close();
         <!-- Address -->
         <label for="address">Address:</label>
         <input type="address" id="address" name="address" required>
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Preferred Language -->
         <label for="preferred_language">Preferred Language:</label>
         <input type="text" id="preferred_language" name="preferred_language">
-        <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;
 
         <!-- Notes -->
         <label for="donor_notes">Notes:</label>
@@ -202,6 +201,7 @@ $conn->close();
         <button type="submit">Add Donor</button>
     </form>
 </body>
+<br><br>
 <body>
   <h1>Search for Donors / Add Donations to Donors</h1>
   <h3>Note that all filtering conditions are optional. If none are given, List Donors will give the entire list of donors</h3>
@@ -210,12 +210,12 @@ $conn->close();
     <!-- Search by ID -->
     <label for="search_donor_id">ID:</label>
     <input type="text" id="search_donor_id" name="search_donor_id">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <!-- Donation amount filter -->
     <label for="donated_greater">Total Donation Amount Greater Than:</label>
     <input type="number" id="donated_greater" name="donated_greater" step="0.01">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="donated_lesser">Total Donation Amount Less Than:</label>
     <input type="number" id="donated_lesser" name="donated_lesser" step="0.01">
@@ -223,7 +223,7 @@ $conn->close();
 
     <label for="largest_donated_greater">Largest Donation Amount Greater Than:</label>
     <input type="number" id="largest_donated_greater" name="largest_donated_greater" step="0.01">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="largest_donated_lesser">Largest Donation Amount Less Than:</label>
     <input type="number" id="largest_donated_lesser" name="largest_donated_lesser" step="0.01">
@@ -231,7 +231,7 @@ $conn->close();
 
     <label for="average_donated_greater">Average Donation Amount Greater Than:</label>
     <input type="number" id="average_donated_greater" name="average_donated_greater" step="0.01">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="average_donated_lesser">Average Donation Amount Less Than:</label>
     <input type="number" id="average_donated_lesser" name="average_donated_lesser" step="0.01">
@@ -240,7 +240,7 @@ $conn->close();
     <!-- Search by name -->
     <label for="search_first_name">First Name:</label>
     <input type="text" id="search_first_name" name="search_first_name">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="search_last_name">Last Name:</label>
     <input type="text" id="search_last_name" name="search_last_name">
@@ -249,7 +249,7 @@ $conn->close();
     <!-- Search by last donated date -->
     <label for="last_donation_earlier">Last Donation Earlier Than:</label>
     <input type="date" id="last_donation_earlier" name="last_donation_earlier" value="">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="last_donation_later">Last Donation Later Than:</label>
     <input type="date" id="last_donation_later" name="last_donation_later" value="">
@@ -262,7 +262,7 @@ $conn->close();
       <option value="1">Opted-in</option>
       <option value="0">Opted-out</option>
     </select>
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <!-- Search by Active or Not -->
     <label for="search_donor_active">Whether or not active:</label>
@@ -285,11 +285,11 @@ $conn->close();
     <!-- Donation amount filter -->
     <label for="amount_greater">Donation Amount Greater Than:</label>
     <input type="number" id="amount_greater" name="amount_greater" step="0.01">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="amount_lesser">Donation Amount Less Than:</label>
     <input type="number" id="amount_lesser" name="amount_lesser" step="0.01">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="search_donation_type">Donation Type:</label>
     <select id="search_donation_type" name="search_donation_type">
@@ -304,11 +304,11 @@ $conn->close();
     <!-- Search by donor name -->
     <label for="search_donations_first_name">Donor First Name:</label>
     <input type="text" id="search_donations_first_name" name="search_donations_first_name">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="search_donations_last_name">Donor Last Name:</label>
     <input type="text" id="search_donations_last_name" name="search_donations_last_name">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <!-- Search by event name -->
     <label for="search_event">Event:</label>
@@ -318,7 +318,7 @@ $conn->close();
     <!-- Search by donation date -->
     <label for="date_from">From:</label>
     <input type="date" id="date_from" name="date_from" value="">
-    <br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;
 
     <label for="date_to">To:</label>
     <input type="date" id="date_to" name="date_to" value="">

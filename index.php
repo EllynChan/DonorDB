@@ -10,54 +10,60 @@ if ($conn->connect_error) {
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Add to Donors table
-    $title = isset($_POST['title']) ? $conn->real_escape_string($_POST['title']) : '';
-    $first_name = isset($_POST['first_name']) ? $conn->real_escape_string($_POST['first_name']) : '';
-    $last_name = isset($_POST['last_name']) ? $conn->real_escape_string($_POST['last_name']) : '';
-    $birthday = isset($_POST['birthday']) ? $conn->real_escape_string($_POST['birthday']) : '';
-    $gender = isset($_POST['gender']) ? $conn->real_escape_string($_POST['gender']) : '';
-    $occupation = isset($_POST['occupation']) ? $conn->real_escape_string($_POST['occupation']) : '';
-    $employer = isset($_POST['employer']) ? $conn->real_escape_string($_POST['employer']) : '';
-    $partner = isset($_POST['partner']) ? $conn->real_escape_string($_POST['partner']) : '';
-    $preferred_name = isset($_POST['preferred_name']) ? $conn->real_escape_string($_POST['preferred_name']) : '';
+    $title = $_POST['title'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $birthday = $_POST['birthday'];
+    $gender = $_POST['gender'];
+    $occupation = $_POST['occupation'];
+    $employer = $_POST['employer'];
+    $partner = $_POST['partner'];
+    $preferred_name = $_POST['preferred_name'];
     $anonymous = (int) $_POST['anonymous'];
     $opt_in_newsletter = (int) $_POST['opt_in_newsletter'];
     $donor_status = (int) $_POST['donor_status'];
-    $notes = isset($_POST['donor_notes']) ? $conn->real_escape_string($_POST['donor_notes']) : '';
+    $notes = $_POST['donor_notes'];
 
     // Insert donor into Donors table
     if (!empty($first_name) && !empty($last_name)) {
 
       $sql_donor = "INSERT INTO Donors (title, first_name, last_name, birthday, gender, occupation, employer, partner, preferred_donation_name, anonymous_donation, opted_in_newsletter, active_status, notes) 
-                    VALUES ('$title', '$first_name', '$last_name', '$birthday', '$gender', '$occupation', '$employer', '$partner', '$preferred_name', '$anonymous', '$opt_in_newsletter', '$donor_status', '$notes')";
-      /*$donor_stmt = $conn->prepare($sql_donor);
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $donor_stmt = $conn->prepare($sql_donor);
       $donor_stmt->bind_param("sssssssssiiis", $title, $first_name, $last_name, $birthday, $gender, $occupation, $employer, $partner, $preferred_name, $anonymous, $opt_in_newsletter, $donor_status, $notes);
-      $donor_stmt->execute();
-*/
-      
-      if ($conn->query($sql_donor) === TRUE) {
-          echo "Donor added successfully!";
+
+      if ($donor_stmt->execute()) {
+          echo "Donor added successfully! <br>";
 
           // Add to ContactInfo table
-          // $donor_id = $donor_stmt->insert_id; 
-          /*$email = isset($_POST['email']) ? $conn->real_escape_string($_POST['email']) : '';
-          $phone_type = isset($_POST['phone_type']) ? $conn->real_escape_string($_POST['phone_type']) : '';
-          $phone = isset($_POST['phone']) ? $conn->real_escape_string($_POST['phone']) : '';
-          $address = isset($_POST['address']) ? $conn->real_escape_string($_POST['address']) : '';
-          $preferred_contact = isset($_POST['preferred_contact']) ? $conn->real_escape_string($_POST['preferred_contact']) : '';
-          $preferred_language = isset($_POST['preferred_language']) ? $conn->real_escape_string($_POST['preferred_language']) : '';
+          $donor_id = $donor_stmt->insert_id; 
+          $email = $_POST['email'];
+          $phone_type = $_POST['phone_type'];
+          $phone = $_POST['phone'];
+          $address = $_POST['address'];
+          $preferred_contact = $_POST['preferred_contact'];
+          $preferred_language = $_POST['preferred_language'];
 
           if (!empty($email) && !empty($address)) {
             $sql_contact_info = "INSERT INTO ContactInfo (donor_id, email, phone_type, phone_number, mailing_address, preferred_contact, language_preference) 
-                          VALUES ('$email', '$phone_type', '$phone', '$address', '$preferred_contact', '$preferred_language')";
+                          VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $contact_stmt = $conn->prepare($sql_contact_info);
+            $contact_stmt->bind_param("issssss", $donor_id, $email, $phone_type, $phone, $address, $preferred_contact, $preferred_language);
             
-            if ($conn->query($sql_contact_info) === TRUE) {
-                echo "Donor added successfully!";
+            if ($contact_stmt->execute()) {
+                echo "Contact info added successfully! <br>";
             } else {
-                echo "Error: " . $sql_contact_info . "<br>" . $conn->error;
+                echo "Error: " . $sql_contact_info . "<br>" . $conn->error . "<br>";
+                $sql_delete = "DELETE FROM Donors WHERE id = ?";
+                $delete_stmt = $conn->prepare($sql_delete);
+                $delete_stmt->bind_param("i", $donor_id);
+                $delete_stmt->execute();
+                $delete_stmt->close();
+                echo "Associated Donor is being removed <br>";
             }
-          }*/
+          }
       } else {
-          echo "Error: " . $sql_donor . "<br>" . $conn->error;
+          echo "Error: " . $sql_donor . "<br>" . $conn->error . "<br>";
       }
     }
 }
